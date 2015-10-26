@@ -18,12 +18,12 @@ namespace Kentor.AuthServices.WebSso
         {
             if(request == null)
             {
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException(nameof(request));
             }
 
             if(options == null)
             {
-                throw new ArgumentNullException("options");
+                throw new ArgumentNullException(nameof(options));
             }
 
             var binding = Saml2Binding.Get(request);
@@ -49,13 +49,13 @@ namespace Kentor.AuthServices.WebSso
                         "The SAML response contains incorrect XML", ex);
                     
                     // Add the payload to the exception
-                    newEx.Data.Add("Saml2Response", unpackedPayload);
+                    newEx.Data["Saml2Response"] = unpackedPayload;
                     throw newEx;
                 }
                 catch (Exception ex)
                 {
                     // Add the payload to the existing exception
-                    ex.Data.Add("Saml2Response", unpackedPayload);
+                    ex.Data["Saml2Response"] = unpackedPayload;
                     throw;
                 }
             }
